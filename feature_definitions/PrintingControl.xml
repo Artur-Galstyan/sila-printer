@@ -1,41 +1,145 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Feature SiLA2Version="1.0" FeatureVersion="1.0" Originator="org.silastandard"
-         Category="tests"
-         xmlns="http://www.sila-standard.org"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.sila-standard.org https://gitlab.com/SiLA2/sila_base/raw/master/schema/FeatureDefinition.xsd">
-    <Identifier>SimpleStructure</Identifier>
-    <DisplayName>Simple Structure</DisplayName>
-    <Description>Provides an unobservable command with a simple structure response data type</Description>
-    <Command>
-        <Identifier>TestCommand</Identifier>
-        <DisplayName>Test Command</DisplayName>
-        <Description>Command for testing</Description>
-        <Observable>No</Observable>
-        <Response>
-            <Identifier>Response1</Identifier>
-            <DisplayName>Response 1</DisplayName>
-            <Description>First response</Description>
-            <DataType>
-                <Structure>
-                    <Element>
-                        <Identifier>Element1</Identifier>
-                        <DisplayName>Element 1</DisplayName>
-                        <Description>First element</Description>
-                        <DataType>
-                            <Basic>Integer</Basic>
-                        </DataType>
-                    </Element>
-                    <Element>
-                        <Identifier>Element2</Identifier>
-                        <DisplayName>Element 2</DisplayName>
-                        <Description>Second element</Description>
-                        <DataType>
-                            <Basic>String</Basic>
-                        </DataType>
-                    </Element>
-                </Structure>
-            </DataType>
-        </Response>
-    </Command>
-</Feature>
+    Category="printer"
+    xmlns="http://www.sila-standard.org"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sila-standard.org https://gitlab.com/SiLA2/sila_base/raw/master/schema/FeatureDefinition.xsd">
+        <Identifier>SiLAPrintingControl</Identifier>
+        <DisplayName>Printing Control</DisplayName>
+        <Description>Provides a set of commands for controlling the printer</Description>
+        <Command>
+            <Identifier>Print</Identifier>
+            <DisplayName>Print</DisplayName>
+            <Description>Prints a document. Upload the file with the SiLA Binary Upload feature first, then pass its binaryTransferUUID here.</Description>
+            <Observable>Yes</Observable>
+            <Parameter>
+                <Identifier>File</Identifier>
+                <DisplayName>File</DisplayName>
+                <Description>The binaryTransferUUID of the file uploaded with the SiLA Binary Upload feature.</Description>
+                <DataType>
+                    <Basic>String</Basic>
+                </DataType>
+            </Parameter>
+
+            <Response>
+                <Identifier>PrintResult</Identifier>
+                <DisplayName>Print Result</DisplayName>
+                <Description>Result of the print operation.</Description>
+                <DataType>
+                    <Structure>
+                        <Element>
+                            <Identifier>PrintStatus</Identifier>
+                            <DisplayName>Print Status</DisplayName>
+                            <Description>Status of the print operation.</Description>
+                            <DataType>
+                                <Basic>Integer</Basic>
+                            </DataType>
+                        </Element>
+                        <Element>
+                            <Identifier>PrintMessage</Identifier>
+                            <DisplayName>Print Message</DisplayName>
+                            <Description>Message related to the print operation.</Description>
+                            <DataType>
+                                <Basic>String</Basic>
+                            </DataType>
+                        </Element>
+                    </Structure>
+                </DataType>
+            </Response>
+            <DefinedExecutionErrors>
+                <Identifier>PrintError</Identifier>
+                <Identifier>PrintingInterrupted</Identifier>
+                <Identifier>PrinterNotReachable</Identifier>
+            </DefinedExecutionErrors>
+        </Command>
+        <Command>
+            <Identifier>StartScanning</Identifier>
+            <DisplayName>Start Scanning</DisplayName>
+            <Description>Starts the scanning process.</Description>
+            <Observable>Yes</Observable>
+            <Response>
+                <Identifier>ScanResult</Identifier>
+                <DisplayName>Scan Result</DisplayName>
+                <Description>Result of the scan operation.</Description>
+                <DataType>
+                    <Structure>
+                        <Element>
+                            <Identifier>ScanStatus</Identifier>
+                            <DisplayName>Scan Status</DisplayName>
+                            <Description>Status of the scan operation.</Description>
+                            <DataType>
+                                <Basic>Integer</Basic>
+                            </DataType>
+                        </Element>
+                        <Element>
+                            <Identifier>ScanMessage</Identifier>
+                            <DisplayName>Scan Message</DisplayName>
+                            <Description>Message related to the scan operation.</Description>
+                            <DataType>
+                                <Basic>String</Basic>
+                            </DataType>
+                        </Element>
+                    </Structure>
+                </DataType>
+            </Response>
+            <DefinedExecutionErrors>
+                <Identifier>ScanningError</Identifier>
+                <Identifier>ScannerNotReachable</Identifier>
+            </DefinedExecutionErrors>
+        </Command>
+        <Command>
+            <Identifier>StopScanning</Identifier>
+            <DisplayName>Stop Scanning</DisplayName>
+            <Description>Stops the scanning process.</Description>
+            <Observable>Yes</Observable>
+            <Response>
+                <Identifier>ScanningStatus</Identifier>
+                <DisplayName>Scanning Status</DisplayName>
+                <Description>Status of the scanning operation.</Description>
+                <DataType>
+                    <Basic>Integer</Basic>
+                </DataType>
+            </Response>
+            <DefinedExecutionErrors>
+                <Identifier>ScanningError</Identifier>
+            </DefinedExecutionErrors>
+        </Command>
+        <DefinedExecutionError>
+          <Identifier>PrintError</Identifier>
+          <DisplayName>Print Error</DisplayName>
+          <Description>The print could not be completed due to an error.</Description>
+        </DefinedExecutionError>
+        <DefinedExecutionError>
+          <Identifier>PrintingInterrupted</Identifier>
+          <DisplayName>Printing Interrupted</DisplayName>
+          <Description>The print was interrupted.</Description>
+        </DefinedExecutionError>
+        <DefinedExecutionError>
+          <Identifier>PrinterNotReachable</Identifier>
+          <DisplayName>Printer Not Reachable</DisplayName>
+          <Description>The printer is not reachable.</Description>
+        </DefinedExecutionError>
+        <DefinedExecutionError>
+          <Identifier>ScanningError</Identifier>
+          <DisplayName>Scanning Error</DisplayName>
+          <Description>The scanning could not be completed due to an error.</Description>
+        </DefinedExecutionError>
+        <DefinedExecutionError>
+          <Identifier>ScannerNotReachable</Identifier>
+          <DisplayName>Scanner Not Reachable</DisplayName>
+          <Description>The scanner is not reachable.</Description>
+        </DefinedExecutionError>
+        <Property>
+          <Identifier>CurrentPrinterStatus</Identifier>
+          <DisplayName>Current Printer Status</DisplayName>
+          <Description>The current status of the printer.</Description>
+          <Observable>Yes</Observable>
+          <DataType>
+            <Constrained>
+              <DataType>
+                <Basic>String</Basic>
+              </DataType>
+            </Constrained>
+          </DataType>
+        </Property>
+    </Feature>

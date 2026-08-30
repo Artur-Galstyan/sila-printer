@@ -1,8 +1,12 @@
 fn main() {
     tonic_prost_build::configure()
         .compile_protos(
-            &["proto/SimpleStructure.proto"],
-            &["proto", "sila_base/protobuf"],
+            &[
+                "sila_base/protobuf/SiLAFramework.proto",
+                "sila_base/protobuf/SiLABinaryTransfer.proto",
+                "proto/PrintingControl.proto",
+            ],
+            &["sila_base/protobuf", "proto"],
         )
         .unwrap();
 }
