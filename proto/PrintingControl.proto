@@ -12,18 +12,18 @@ service SiLAPrintingControl {
   rpc Print_Info (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.ExecutionInfo) {}
   /* Retrieve result of Print */
   rpc Print_Result(sila2.org.silastandard.CommandExecutionUUID) returns (sila2.org.silastandard.printer.silaprintingcontrol.v1.Print_Responses) {}
-  /* Starts the scanning process. */
-  rpc StartScanning (sila2.org.silastandard.printer.silaprintingcontrol.v1.StartScanning_Parameters) returns (sila2.org.silastandard.CommandConfirmation) {}
-  /* Monitor the state of StartScanning */
-  rpc StartScanning_Info (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.ExecutionInfo) {}
-  /* Retrieve result of StartScanning */
-  rpc StartScanning_Result(sila2.org.silastandard.CommandExecutionUUID) returns (sila2.org.silastandard.printer.silaprintingcontrol.v1.StartScanning_Responses) {}
-  /* Stops the scanning process. */
-  rpc StopScanning (sila2.org.silastandard.printer.silaprintingcontrol.v1.StopScanning_Parameters) returns (sila2.org.silastandard.CommandConfirmation) {}
-  /* Monitor the state of StopScanning */
-  rpc StopScanning_Info (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.ExecutionInfo) {}
-  /* Retrieve result of StopScanning */
-  rpc StopScanning_Result(sila2.org.silastandard.CommandExecutionUUID) returns (sila2.org.silastandard.printer.silaprintingcontrol.v1.StopScanning_Responses) {}
+  /* Scans a page from the document feeder. */
+  rpc ScanPage (sila2.org.silastandard.printer.silaprintingcontrol.v1.ScanPage_Parameters) returns (sila2.org.silastandard.CommandConfirmation) {}
+  /* Monitor the state of ScanPage */
+  rpc ScanPage_Info (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.ExecutionInfo) {}
+  /* Retrieve result of ScanPage */
+  rpc ScanPage_Result(sila2.org.silastandard.CommandExecutionUUID) returns (sila2.org.silastandard.printer.silaprintingcontrol.v1.ScanPage_Responses) {}
+  /* Flushes the scan buffer. */
+  rpc FlushScan (sila2.org.silastandard.printer.silaprintingcontrol.v1.FlushScan_Parameters) returns (sila2.org.silastandard.CommandConfirmation) {}
+  /* Monitor the state of FlushScan */
+  rpc FlushScan_Info (sila2.org.silastandard.CommandExecutionUUID) returns (stream sila2.org.silastandard.ExecutionInfo) {}
+  /* Retrieve result of FlushScan */
+  rpc FlushScan_Result(sila2.org.silastandard.CommandExecutionUUID) returns (sila2.org.silastandard.printer.silaprintingcontrol.v1.FlushScan_Responses) {}
   /* The current status of the printer. */
   rpc Subscribe_CurrentPrinterStatus (sila2.org.silastandard.printer.silaprintingcontrol.v1.Subscribe_CurrentPrinterStatus_Parameters) returns (stream sila2.org.silastandard.printer.silaprintingcontrol.v1.Subscribe_CurrentPrinterStatus_Responses) {}
 }
@@ -42,25 +42,25 @@ message Print_Responses {
   sila2.org.silastandard.printer.silaprintingcontrol.v1.Print_Responses.PrintResult_Struct PrintResult = 1;  /* Result of the print operation. */
 }
 
-/* Parameters for StartScanning */
-message StartScanning_Parameters {
+/* Parameters for ScanPage */
+message ScanPage_Parameters {
 }
 
-/* Responses of StartScanning */
-message StartScanning_Responses {
+/* Responses of ScanPage */
+message ScanPage_Responses {
   message ScanResult_Struct {
     sila2.org.silastandard.Integer ScanStatus = 1;  /* Status of the scan operation. */
     sila2.org.silastandard.String ScanMessage = 2;  /* Message related to the scan operation. */
   }
-  sila2.org.silastandard.printer.silaprintingcontrol.v1.StartScanning_Responses.ScanResult_Struct ScanResult = 1;  /* Result of the scan operation. */
+  sila2.org.silastandard.printer.silaprintingcontrol.v1.ScanPage_Responses.ScanResult_Struct ScanResult = 1;  /* Result of the scan operation. */
 }
 
-/* Parameters for StopScanning */
-message StopScanning_Parameters {
+/* Parameters for FlushScan */
+message FlushScan_Parameters {
 }
 
-/* Responses of StopScanning */
-message StopScanning_Responses {
+/* Responses of FlushScan */
+message FlushScan_Responses {
   sila2.org.silastandard.Integer ScanningStatus = 1;  /* Status of the scanning operation. */
 }
 

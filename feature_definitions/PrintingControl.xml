@@ -53,9 +53,9 @@
             </DefinedExecutionErrors>
         </Command>
         <Command>
-            <Identifier>StartScanning</Identifier>
-            <DisplayName>Start Scanning</DisplayName>
-            <Description>Starts the scanning process.</Description>
+            <Identifier>ScanPage</Identifier>
+            <DisplayName>Scan Page</DisplayName>
+            <Description>Scans a page from the document feeder.</Description>
             <Observable>Yes</Observable>
             <Response>
                 <Identifier>ScanResult</Identifier>
@@ -88,9 +88,9 @@
             </DefinedExecutionErrors>
         </Command>
         <Command>
-            <Identifier>StopScanning</Identifier>
-            <DisplayName>Stop Scanning</DisplayName>
-            <Description>Stops the scanning process.</Description>
+            <Identifier>FlushScan</Identifier>
+            <DisplayName>Flush Scan</DisplayName>
+            <Description>Flushes the scan buffer.</Description>
             <Observable>Yes</Observable>
             <Response>
                 <Identifier>ScanningStatus</Identifier>

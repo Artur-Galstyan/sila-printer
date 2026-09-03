@@ -5,8 +5,8 @@ use tonic::{Request, Response, Status, transport::Server};
 use crate::pb::sila2::org::silastandard::{
     CommandConfirmation, CommandExecutionUuid, ExecutionInfo,
     printer::silaprintingcontrol::v1::{
-        PrintParameters, PrintResponses, StartScanningParameters, StartScanningResponses,
-        StopScanningParameters, StopScanningResponses, SubscribeCurrentPrinterStatusParameters,
+        FlushScanParameters, FlushScanResponses, PrintParameters, PrintResponses,
+        ScanPageParameters, ScanPageResponses, SubscribeCurrentPrinterStatusParameters,
         SubscribeCurrentPrinterStatusResponses,
         si_la_printing_control_server::{SiLaPrintingControl, SiLaPrintingControlServer},
     },
@@ -41,8 +41,8 @@ struct PrinterServer;
 #[tonic::async_trait]
 impl SiLaPrintingControl for PrinterServer {
     type Print_InfoStream = ReceiverStream<Result<ExecutionInfo, Status>>;
-    type StartScanning_InfoStream = ReceiverStream<Result<ExecutionInfo, Status>>;
-    type StopScanning_InfoStream = ReceiverStream<Result<ExecutionInfo, Status>>;
+    type ScanPage_InfoStream = ReceiverStream<Result<ExecutionInfo, Status>>;
+    type FlushScan_InfoStream = ReceiverStream<Result<ExecutionInfo, Status>>;
     type Subscribe_CurrentPrinterStatusStream =
         ReceiverStream<Result<SubscribeCurrentPrinterStatusResponses, Status>>;
 
@@ -74,45 +74,45 @@ impl SiLaPrintingControl for PrinterServer {
         todo!()
     }
 
-    async fn start_scanning(
+    async fn scan_page(
         &self,
-        request: Request<StartScanningParameters>,
+        request: Request<ScanPageParameters>,
     ) -> Result<Response<CommandConfirmation>, Status> {
         todo!()
     }
 
-    async fn start_scanning_result(
+    async fn scan_page_result(
         &self,
         request: Request<CommandExecutionUuid>,
-    ) -> Result<Response<StartScanningResponses>, Status> {
+    ) -> Result<Response<ScanPageResponses>, Status> {
         todo!()
     }
 
-    async fn start_scanning_info(
+    async fn scan_page_info(
         &self,
         request: Request<CommandExecutionUuid>,
-    ) -> Result<Response<Self::StartScanning_InfoStream>, Status> {
+    ) -> Result<Response<Self::ScanPage_InfoStream>, Status> {
         todo!()
     }
 
-    async fn stop_scanning(
+    async fn flush_scan(
         &self,
-        request: Request<StopScanningParameters>,
+        request: Request<FlushScanParameters>,
     ) -> Result<Response<CommandConfirmation>, Status> {
         todo!()
     }
 
-    async fn stop_scanning_result(
+    async fn flush_scan_result(
         &self,
         request: Request<CommandExecutionUuid>,
-    ) -> Result<Response<StopScanningResponses>, Status> {
+    ) -> Result<Response<FlushScanResponses>, Status> {
         todo!()
     }
 
-    async fn stop_scanning_info(
+    async fn flush_scan_info(
         &self,
         request: Request<CommandExecutionUuid>,
-    ) -> Result<Response<Self::StopScanning_InfoStream>, Status> {
+    ) -> Result<Response<Self::FlushScan_InfoStream>, Status> {
         todo!()
     }
 }
