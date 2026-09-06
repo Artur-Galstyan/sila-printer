@@ -1,3 +1,6 @@
+use sila_printer::list_printers;
+
 fn main() {
-    println!("Hello, world!");
+    let printers = list_printers().unwrap();
+    println!("{:?}", printers);
 }
