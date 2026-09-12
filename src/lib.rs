@@ -1,38 +1,55 @@
-use std::{error::Error, process::Command};
+use std::process::Command;
 
 const PRINTER_NAME: &str = "HP_Smart_Tank_7000_series__807313_";
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Printer {
-    name: String,
-    status: PrinterStatus,
+    pub name: String,
+    pub status: PrinterStatus,
 }
 
 #[derive(Debug, Clone, PartialEq)]
-enum PrinterStatus {
+pub enum PrinterStatus {
     Idle,
+    Processing,
+    Stopped,
+    Unknown,
+}
+
+impl std::fmt::Display for PrinterStatus {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let printer_status = match self {
+            PrinterStatus::Idle => "idle",
+            PrinterStatus::Processing => "processing",
+            PrinterStatus::Stopped => "stopped",
+            PrinterStatus::Unknown => "unknown",
+        };
+        write!(f, "{}", printer_status)
+    }
 }
 
 impl PrinterStatus {
-    pub fn from_str(s: &str) -> PrinterStatus {
+    pub fn parse(s: &str) -> PrinterStatus {
         match s {
             "idle" => PrinterStatus::Idle,
-            _ => PrinterStatus::Idle,
+            "processing" => PrinterStatus::Processing,
+            "stopped" => PrinterStatus::Stopped,
+            _ => PrinterStatus::Unknown,
         }
     }
 }
 
-pub fn list_printers() -> Result<Vec<Printer>, Box<dyn Error>> {
+pub fn get_printer() -> std::io::Result<Printer> {
     let command_output = Command::new("lpstat").arg("-p").output()?;
 
     if !command_output.status.success() {
-        return Err(Box::new(std::io::Error::other("lpstat failed")));
+        return Err(std::io::Error::other("lpstat failed"));
     }
 
     let output = String::from_utf8_lossy(&command_output.stdout);
     let lines: Vec<&str> = output.lines().collect();
 
-    let printers: Vec<Printer> = lines
+    let printer = lines
         .iter()
         .flat_map(|line| {
             // a line looks like this:
@@ -54,10 +71,10 @@ pub fn list_printers() -> Result<Vec<Printer>, Box<dyn Error>> {
 
             Some(Printer {
                 name: name.to_string(),
-                status: PrinterStatus::from_str(status),
+                status: PrinterStatus::parse(status),
             })
         })
-        .collect();
+        .find(|p| p.name == PRINTER_NAME);
 
-    Ok(printers)
+    printer.ok_or(std::io::Error::other("printer not found"))
 }

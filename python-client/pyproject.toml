@@ -7,7 +7,10 @@ authors = [
     { name = "Artur Galstyan", email = "galstyan.artu@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "grpcio>=1.83.1",
+    "protobuf>=7.36.1",
+]
 
 [project.scripts]
 python-client = "python_client:main"
@@ -15,3 +18,9 @@ python-client = "python_client:main"
 [build-system]
 requires = ["uv_build>=0.12.7,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "grpcio-tools>=1.83.1",
+    "mypy-protobuf>=5.1.0",
+]

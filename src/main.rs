@@ -1,6 +1,6 @@
-use sila_printer::list_printers;
+use sila_printer::get_printer;
 
 fn main() {
-    let printers = list_printers().unwrap();
+    let printers = get_printer().unwrap();
     println!("{:?}", printers);
 }

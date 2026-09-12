@@ -1,9 +1,10 @@
+use sila_printer::get_printer;
 use tokio_stream::wrappers::ReceiverStream;
 
 use tonic::{Request, Response, Status, transport::Server};
 
 use crate::pb::sila2::org::silastandard::{
-    CommandConfirmation, CommandExecutionUuid, ExecutionInfo,
+    CommandConfirmation, CommandExecutionUuid, ExecutionInfo, String as SiLaString,
     printer::silaprintingcontrol::v1::{
         FlushScanParameters, FlushScanResponses, PrintParameters, PrintResponses,
         ScanPageParameters, ScanPageResponses, SubscribeCurrentPrinterStatusParameters,
@@ -50,7 +51,36 @@ impl SiLaPrintingControl for PrinterServer {
         &self,
         request: Request<SubscribeCurrentPrinterStatusParameters>,
     ) -> Result<Response<Self::Subscribe_CurrentPrinterStatusStream>, Status> {
-        todo!()
+        let r = request.into_inner();
+
+        let (tx, rx) = tokio::sync::mpsc::channel(4);
+
+        tokio::spawn(async move {
+            loop {
+                let printer = match get_printer() {
+                    Ok(printer) => printer,
+                    Err(error) => {
+                        let _ = tx.send(Err(Status::unavailable(error.to_string()))).await;
+                        break;
+                    }
+                };
+                let response = SubscribeCurrentPrinterStatusResponses {
+                    current_printer_status: Some(SiLaString {
+                        value: printer.status.to_string(),
+                    }),
+                };
+
+                if tx.send(Ok(response)).await.is_err() {
+                    break;
+                }
+
+                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+            }
+        });
+
+        Ok(Response::new(
+            Self::Subscribe_CurrentPrinterStatusStream::new(rx),
+        ))
     }
 
     async fn print(
