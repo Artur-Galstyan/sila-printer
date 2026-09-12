@@ -17,7 +17,7 @@
                 <DisplayName>File</DisplayName>
                 <Description>The binaryTransferUUID of the file uploaded with the SiLA Binary Upload feature.</Description>
                 <DataType>
-                    <Basic>String</Basic>
+                    <Basic>Binary</Basic>
                 </DataType>
             </Parameter>
 

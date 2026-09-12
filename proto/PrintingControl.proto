@@ -30,7 +30,7 @@ service SiLAPrintingControl {
 
 /* Parameters for Print */
 message Print_Parameters {
-  sila2.org.silastandard.String File = 1;  /* The binaryTransferUUID of the file uploaded with the SiLA Binary Upload feature. */
+  sila2.org.silastandard.Binary File = 1;  /* The binaryTransferUUID of the file uploaded with the SiLA Binary Upload feature. */
 }
 
 /* Responses of Print */
